@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Two Boxes Layout</title>
+		<style>
+			.container {
+			display: flex;
+			width: 100%;
+			height: 100vh;
+			}
+			.display-box {
+			flex: 0.7;
+			background-color: #f0f0f0;
+			border: 1px solid #000;
+			padding: 20px;
+			box-sizing: border-box;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: relative;
+			}
+			.settings-box {
+			flex: 0.3;
+			background-color: #d0d0d0;
+			border: 1px solid #000;
+			padding: 20px;
+			box-sizing: border-box;
+			}
+			.card-box {
+			width: 822px;
+			height: 1122px;
+			border: 1px solid grey;
+			background-color: white;
+			position: relative;
+			overflow: hidden;
+			}
+			.layer {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: auto;
+			height: auto;
+			}
+			.image-layer img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: auto;
+			height: auto;
+			max-width: none;
+			max-height: none;
+			}
+			.layer2 {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url('layer2.png') no-repeat center center;
+			background-size: cover;
+			}
+            			.layercut {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url('cut.png') no-repeat center center;
+			background-size: cover;
+			}
+			.layer3 {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url('points.png') no-repeat center center;
+			background-size: cover;
+			}
+			.points, .copies, .name {
+			position: absolute; /* Enable absolute positioning within .layer3 */
+			}
+			@font-face {
+			font-family: 'Commed';
+			src: url('font/commed.otf') format('opentype');
+			}
+			.layer3 {
+			font-family: 'Commed', sans-serif;
+			}
+			.points {
+			font-family: 'Commed', sans-serif;
+			font-size: 78px; /* Scaled from 25pt (300 DPI to 96 DPI) */
+			color: #f4d211;
+			}
+			.copies {
+			font-family: 'Commed', sans-serif;
+			font-size: 35.34px; /* Scaled from 11.31pt (300 DPI to 96 DPI) */
+			color: white;
+			}        
+			.layer4 {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url('splash.png') no-repeat center center;
+			background-size: cover;
+			}
+			.layerfaction {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url('splash.png') no-repeat center center;
+			background-size: cover;
+			}
+			.info-box {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			width: 645px;
+			display: flex;
+			flex-direction: column;
+			}
+			.layername {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			}
+			.content {
+			display: flex;
+			align-items: center;
+			position: absolute;
+			bottom: 57px;  /* Adjust as needed */
+			left: 87px;
+			transform: rotate(-90deg);
+			transform-origin: left center; /* Keeps the rotation anchored to the left */
+			}
+			.text-item {
+			font-family: 'Commed', sans-serif;
+			font-size: 70px; /* Adjust font size as needed */
+			margin-right: 30px; /* Adjust spacing between text items */
+			}
+			.text-item2 {
+			font-family: 'Commed', sans-serif;
+			font-size: 45px; /* Adjust font size as needed */
+			margin-right: 30px; /* Adjust spacing between text items */
+			}
+			.image-item {
+			transform: rotate(90deg);
+			}
+			.resourcebg {
+			background: url('resico.png') no-repeat top left, url('resbg.png') no-repeat center center;
+			}
+			.fluff {
+			height: 50px;
+			}
+			@font-face {
+			font-family: 'Comreg';
+			src: url('font/comreg.otf') format('opentype');
+			}
+			.objective {
+			background: url('objico.png') no-repeat top left, url('objbg.png') no-repeat top center;
+			position: relative;  /* Makes the container the reference point for absolutely positioned elements */
+			padding-top: 10px;  /* Adjust padding as needed */
+			}
+			.images {
+			position: absolute;  /* Positions images on top of the text */
+			top: 10px;  /* Position images at the top-left of the objective box */
+			left: 5px;  /* Aligns images to the left */
+			display: flex;  /* Use flexbox to place the images side by side */
+			z-index: 1;  /* Ensures the images are above the text */
+			}
+			.image-box {
+			width: 40px;  /* Fixed width for each box */
+			height: 40px;  /* Adjust height as needed */
+			display: flex;
+			justify-content: center;  /* Center the image inside the box */
+			margin-right: 18px;  /* Adds space between the boxes */
+			}
+			.image-box img {
+			max-width: 80%;  /* Adjust the image size relative to the box */
+			max-height: 80%;  /* Ensure image fits within the box */
+			}
+			.objtxt {
+			font-family: 'Comreg', sans-serif;
+			font-size: 40px;
+			margin: 0;  /* Removes all margins */
+			text-indent: 180px;
+			padding-left: 20px;
+			padding-right: 20px;
+			margin-bottom: 20px;
+			position: relative;  /* Ensures the text stays in place */
+			z-index: 0;  /* Keeps the text behind the images */
+			}
+			.restxt {
+			font-family: 'Comreg', sans-serif;
+			font-size: 40px;
+			margin: 0px;
+			text-indent: 80px;
+			padding-left:20px;
+			padding-right:20px;
+			margin-top:15px;
+			margin-bottom:20px;
+                position: relative; /* Maintain normal document flow */
+    z-index: 0; /* Ensure it's below the .newtxt */
+			}
+			.flufftxt {
+			font-family: 'Comreg', sans-serif;
+			font-size: 30px;
+			margin: 0px;
+			padding-left:20px;
+			padding-right:20px;
+			margin-top:15px;
+			margin-bottom:80px;
+			}
+			.layerfactiontype {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: url('splash.png') no-repeat center center;
+			background-size: cover;
+			}
+            .resource {
+    position: relative; /* Ensures child elements are positioned relative to this container */
+}
+
+.newtxt {
+    position: absolute;
+    top: -55px; /* Adjust this to place it exactly where you want */
+    left: 43px;
+    z-index: 1; /* Place this element above the restxt */
+    color:white;
+    font-family: 'Commed', sans-serif;
+			font-size: 40px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .settings-box {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .settings-box section {
+    width: 100%;
+    display: block;
+}
+
+    section {
+        flex: 1 1 45%;
+        min-width: 300px;
+    }
+    .image-upload-section,
+    .sliders-section,
+    .text-areas-section,
+    .additional-text-sections,
+    .faction-selector,
+    .input-text-items,
+    .image-dropdown-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .image-upload-section div,
+    .sliders-section div,
+    .text-areas-section div,
+    .additional-text-sections div,
+    .faction-selector div,
+    .input-text-items div,
+    .image-dropdown-section div {
+        flex: 1;
+        min-width: 150px;
+    }
+    textarea, select, input[type="text"] {
+        width: 100%;
+    }
+
+
+
+		</style>
+		<script>
+			function previewImage(event) {
+			    const file = event.target.files[0];
+			    if (file) {
+			        const reader = new FileReader();
+			        reader.onload = function(e) {
+			            const img = document.createElement('img');
+			            img.src = e.target.result;
+			            img.alt = "Uploaded Image";
+			            img.style.position = "absolute";
+			            img.style.top = "0px";
+			            img.style.left = "0px";
+			            img.id = "uploaded-image";
+			            
+			            const imageLayer = document.getElementById('image-layer');
+			            imageLayer.innerHTML = '';
+			            imageLayer.appendChild(img);
+			        }
+			        reader.readAsDataURL(file);
+			    }
+			}
+			
+			function updatePosition() {
+			    const img = document.getElementById('uploaded-image');
+			    if (img) {
+			        const x = document.getElementById('x-pos').value;
+			        const y = document.getElementById('y-pos').value;
+			        img.style.left = x + 'px';
+			        img.style.top = y + 'px';
+			    }
+			}
+			
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="display-box">
+				<div class="card-box">
+					<div class="layer image-layer" id="image-layer"></div>
+					<div class="layer layer2 greysidefadexxx"></div>
+					<div class="info-box">
+						<div class="objective">
+							<div class="images">
+								<div class="image-box" id="imageBox1">
+									<img src="objective/1/BMG_CustomObjectiveTemplate_0006_Control.png" alt="Image 1">
+								</div>
+								<div class="image-box" id="imageBox2">
+									<img src="objective/2/BMG_CustomObjectiveTemplate_0010_I.png" alt="Image 2">
+								</div>
+								<div class="image-box" id="imageBox3">
+									<img src="objective/3/BMG_CustomObjectiveTemplate_0014_Instantly.png" alt="Image 3">
+								</div>
+							</div>
+							<p class="objtxt">
+								This is the paragraph of text that will start after the icons. This is the paragraph of text that will start after the icons. This is the paragraph of text that will start after the icons. This is the paragraph of text that will start after the icons.
+							</p>
+						</div>
+						<div class="resourcebg">
+<div class="resource">
+    <p class="newtxt">1</p>
+    <p class="restxt">This is the paragraph of text that will start after the icons. This is the paragraph of text that will start after the icons.</p>
+</div>
+
+							<img src="batbar.png" alt="Batbar Image">
+							<p class="flufftxt">This says something.</p>
+						</div>
+					</div>
+					<div class="layer layer3 pointsxxx">
+						<div class="points" style="left: 122px; top: 77px;"><span id="pointsval">1</span></div>
+						<div class="copies" style="left: 167px; top: 147px;"><span id="copiesval">1</span></div>
+					</div>
+					<div class="layer layer4 splashxxx"></div>
+					<div class="layer layerfaction"></div>
+					<div class="layer layername">
+						<div class="content">
+							<span class="text-item" id="text1">Text Item 1</span>
+							<span class="text-item2" id="text2">Text Item 2</span>
+							<img src="objective/3/BMG_CustomObjectiveTemplate_0014_Instantly.png" alt="Image" class="image-item" id="imageItem">
+						</div>
+					</div>
+					<div class="layer layerfactiontype"></div>
+                    <div class="layer layercut"></div>
+				</div>
+			</div>
+			
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <div class="settings-box">
+    <section class="image-upload-section">
+        <div style="width:100%">
+            <label for="image-upload" >Upload Image:</label>
+            <input type="file" id="image-upload" accept="image/*" onchange="previewImage(event)">
+        </div>
+        <div>
+            <label for="x-pos">Image X Position:</label>
+            <input type="range" id="x-pos" min="-500" max="500" value="0" oninput="updatePosition()">
+        </div>
+        <div>
+            <label for="y-pos">Image Y Position:</label>
+            <input type="range" id="y-pos" min="-500" max="500" value="0" oninput="updatePosition()">
+        </div>
+    </section>
+    
+    <hr>
+    
+    <section class="sliders-section">
+        <div>
+            <label for="pointsSlider">Points:</label>
+            <input type="range" id="pointsSlider" min="1" max="9" value="1" oninput="updateText()">
+        </div>
+        <div>
+            <label for="copiesSlider">Copies:</label>
+            <input type="range" id="copiesSlider" min="1" max="9" value="1" oninput="updateText()">
+        </div>
+    </section>
+    
+    <hr>
+    
+    <section class="text-areas-section">
+        <div>
+            <label for="objtxtInput">Enter text for objective:</label>
+            <textarea id="objtxtInput" placeholder="Enter text for objtxt" style="width: 100%;" oninput="updateTextContent()"></textarea>
+        </div>
+        <div>
+            <label for="restxtInput">Enter text for resource:</label>
+            <textarea id="restxtInput" placeholder="Enter text for restxt" style="width: 100%;" oninput="updateTextContent()"></textarea>
+        </div>
+        <div>
+            <label for="flufftxtInput">Enter text for fluff:</label>
+            <textarea id="flufftxtInput" placeholder="Enter text for flufftxt" style="width: 100%;" oninput="updateTextContent()"></textarea>
+        </div>
+    </section>
+    
+    <hr>
+    
+    <section class="dropdown-section">
+        <div>
+            <label for="dropdown1">Select Objective Type:</label>
+            <select id="dropdown1">
+                <option value="BMG_CustomObjectiveTemplate_0006_Control.png" selected>Control</option>
+                <option value="BMG_CustomObjectiveTemplate_0007_Threat-_-Menace.png">Threat & Menace</option>
+                <option value="BMG_CustomObjectiveTemplate_0008_Protection.png">Protection</option>
+                <option value="BMG_CustomObjectiveTemplate_0009_Violence.png">Violence</option>
+            </select>
+        </div>
+        <div>
+            <label for="dropdown2">Select Level:</label>
+            <select id="dropdown2">
+                <option value="BMG_CustomObjectiveTemplate_0010_I.png" selected>I</option>
+                <option value="BMG_CustomObjectiveTemplate_0011_II.png">II</option>
+                <option value="BMG_CustomObjectiveTemplate_0012_III.png">III</option>
+                <option value="BMG_CustomObjectiveTemplate_0013_IV.png">IV</option>
+            </select>
+        </div>
+        <div>
+            <label for="dropdown3">Select Timing:</label>
+            <select id="dropdown3">
+                <option value="BMG_CustomObjectiveTemplate_0014_Instantly.png" selected>Instantly</option>
+                <option value="BMG_CustomObjectiveTemplate_0015_End-of-Round.png">End of Round</option>
+                <option value="BMG_CustomObjectiveTemplate_0016_Special-Condition.png">Special Condition</option>
+            </select>
+        </div>
+    </section>
+    
+    <hr>
+    
+    <section class="faction-selector">
+        <div>
+            <label for="factionSelector">Select Faction:</label>
+            <select id="factionSelector">
+                <option value="BMG_CustomObjectiveTemplate_0000_Batman.png">Batman</option>
+                <option value="BMG_CustomObjectiveTemplate_0001_Joker.png">Joker</option>
+                <option value="BMG_CustomObjectiveTemplate_0002_Soldiers-of-Fortune.png">Soldiers of Fortune</option>
+                <option value="BMG_CustomObjectiveTemplate_0003_Riddler.png">Riddler</option>
+                <option value="BMG_CustomObjectiveTemplate_0004_Birds-of-Prey.png">Birds of Prey</option>
+                <option value="BMG_CustomObjectiveTemplate_0005_Birds-of-Prey-Ivy.png">Birds of Prey - Ivy</option>
+                <option value="BMG_CustomObjectiveTemplate_0006_Penguin.png">Penguin</option>
+                <option value="BMG_CustomObjectiveTemplate_0007_Freeze.png">Freeze</option>
+                <option value="BMG_CustomObjectiveTemplate_0008_League-of-Assassins.png">League of Assassins</option>
+                <option value="BMG_CustomObjectiveTemplate_0009_Organized-Crime.png">Organized Crime</option>
+                <option value="BMG_CustomObjectiveTemplate_0010_Court-Of-Owls.png">Court of Owls</option>
+                <option value="BMG_CustomObjectiveTemplate_0011_Cult.png">Cult</option>
+                <option value="BMG_CustomObjectiveTemplate_0012_Unknown.png">Unknown</option>
+            </select>
+        </div>
+    </section>
+    
+    <hr>
+    
+    <section class="input-text-items">
+        <div>
+            <label for="inputText1">Enter new text for Text Item 1:</label>
+            <input type="text" id="inputText1" placeholder="Enter new text for Text Item 1">
+        </div>
+        <div>
+            <label for="inputText2">Enter new text for Text Item 2:</label>
+            <input type="text" id="inputText2" placeholder="Enter new text for Text Item 2">
+        </div>
+    </section>
+    
+    <hr>
+    
+    <section class="image-dropdown-section">
+        <div>
+            <label for="imageDropdown">Select Agent Type:</label>
+            <select id="imageDropdown">
+                <option value="BMG_CustomObjectiveTemplate_0000_Leader.png">Leader</option>
+                <option value="BMG_CustomObjectiveTemplate_0001_Sidekick.png">Sidekick</option>
+                <option value="BMG_CustomObjectiveTemplate_0002_Free-Agent.png">Free Agent</option>
+                <option value="BMG_CustomObjectiveTemplate_0003_Henchman.png">Henchman</option>
+                <option value="BMG_CustomObjectiveTemplate_0004_Lengend.png">Legend</option>
+                <option value="BMG_CustomObjectiveTemplate_0005_vehicle.png">Vehicle</option>
+            </select>
+        </div>
+    </section>
+</div>
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+		</div>
+		<script>      
+			// Function to update the text content based on slider input
+			function updateText() {
+			    // Update the text inside the .points and .copies divs
+			    document.getElementById('pointsval').textContent = document.getElementById('pointsSlider').value;
+			    document.getElementById('copiesval').textContent = document.getElementById('copiesSlider').value;
+			    
+			}
+			
+			// Initial call to set the default text
+			updateText();
+			
+			function updateTextContent() {
+			    // Get the input values for each text box
+			    var objtxtValue = document.getElementById("objtxtInput").value;
+			    var restxtValue = document.getElementById("restxtInput").value;
+			    var flufftxtValue = document.getElementById("flufftxtInput").value;
+			
+			    // Update the paragraphs with the corresponding input values
+			    document.querySelector(".objtxt").textContent = objtxtValue;
+			    document.querySelector(".restxt").textContent = restxtValue;
+			    document.querySelector(".flufftxt").textContent = flufftxtValue;
+			}
+			
+			document.getElementById('factionSelector').addEventListener('change', function() {
+			var selectedImage = this.value;  // Get the selected image filename
+			var layerDiv = document.querySelector('.layerfactiontype');  // Get the target div
+			
+			// Set the background image of the div
+			layerDiv.style.backgroundImage = `url('file:///C:/Users/Harry/Desktop/BMG%20Card%20editor/factions/${selectedImage}')`;
+			});
+			
+			// Event listeners for the dropdowns
+			document.getElementById('dropdown1').addEventListener('change', function() {
+			var selectedImage = this.value;  // Get the selected image filename for dropdown 1
+			document.querySelector('#imageBox1 img').src = `objective/1/${selectedImage}`;  // Update the image source
+			});
+			
+			document.getElementById('dropdown2').addEventListener('change', function() {
+			var selectedImage = this.value;  // Get the selected image filename for dropdown 2
+			document.querySelector('#imageBox2 img').src = `objective/2/${selectedImage}`;  // Update the image source
+			});
+			
+			document.getElementById('dropdown3').addEventListener('change', function() {
+			var selectedImage = this.value;  // Get the selected image filename for dropdown 3
+			document.querySelector('#imageBox3 img').src = `objective/3/${selectedImage}`;  // Update the image source
+			});
+			
+			// Event listener for updating text for Text Item 1
+			document.getElementById('inputText1').addEventListener('input', function() {
+			var newText1 = this.value;  // Get the new text entered
+			document.getElementById('text1').textContent = newText1;  // Update the text content of Text Item 1
+			});
+			
+			// Event listener for updating text for Text Item 2
+			document.getElementById('inputText2').addEventListener('input', function() {
+			var newText2 = this.value;  // Get the new text entered
+			document.getElementById('text2').textContent = newText2;  // Update the text content of Text Item 2
+			});
+			
+			// Event listener for updating the image based on dropdown selection
+			document.getElementById('imageDropdown').addEventListener('change', function() {
+			var selectedImage = this.value;  // Get the selected image filename
+			document.getElementById('imageItem').src = `type/${selectedImage}`;  // Update the image source
+			});
+			
+			
+		</script>
+	</body>
+</html>
